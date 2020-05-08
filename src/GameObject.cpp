@@ -16,23 +16,44 @@ void GameObject::Update() {
 }
 
 void GameObject::UpdatePosition() {
+
   switch (direction) {
     case Direction::kUp:
+      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_y - speed)>=0)))
+      {
       pos_y -= speed;
+      }
+      else std::cout << "Hit screen boundary \n";
       break;
 
     case Direction::kDown:
+      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_y + speed)<grid_height)))
+      {
       pos_y += speed;
+      }
+      else std::cout << "Hit screen boundary \n";
       break;
 
     case Direction::kLeft:
+      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_x - speed)>=0)))
+      {
       pos_x -= speed;
+      }
+      else std::cout << "Hit screen boundary \n";
       break;
 
     case Direction::kRight:
+      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_x + speed)<grid_width)))
+      {
       pos_x += speed;
+      }
+      else std::cout << "Hit screen boundary \n";
+      break;
+    
+    case Direction::kNone:
       break;
   }
+  
 }
 
 

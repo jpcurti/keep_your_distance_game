@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Player const player, SDL_Point const &item) {
+void Renderer::Render(Player const player, SDL_Point const &item, std::vector<Person> const &pVector) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -54,13 +54,14 @@ void Renderer::Render(Player const player, SDL_Point const &item) {
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render other persons
-/*   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  for (SDL_Point const &point : snake.body) {
-    block.x = point.x * block.w;
-    block.y = point.y * block.h;
+  for(Person p : pVector)
+  {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    block.x = static_cast<int>(p.pos_x) * block.w;
+    block.y = static_cast<int>(p.pos_y) * block.h;
     SDL_RenderFillRect(sdl_renderer, &block);
   }
- */
+
   // Render Player 
   block.x = static_cast<int>(player.pos_x) * block.w;
   block.y = static_cast<int>(player.pos_y) * block.h;

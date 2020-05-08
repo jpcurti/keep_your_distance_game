@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <random>
+#include <vector>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
@@ -17,6 +18,7 @@ class Game {
 
  private:
   Player player;
+  std::vector<Person> pVector;
   SDL_Point item;
 
   std::random_device dev;

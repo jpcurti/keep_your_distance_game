@@ -15,7 +15,7 @@ enum ObjectType
 
 class GameObject {
  public:
-  enum class Direction { kUp, kDown, kLeft, kRight };
+  enum class Direction { kUp, kDown, kLeft, kRight, kNone };
 
   GameObject(int grid_width, int grid_height)
       : grid_width(grid_width),
@@ -30,9 +30,11 @@ class GameObject {
         pos_x(posx),
         pos_y(posy),
         object_Type(objectType) {}
-  ObjectType getType() { return object_Type; }
+  ObjectType getType()const  { return object_Type; }
+  int getGridWidth() const {return grid_width;}
+  int getGridHeight() const {return grid_height;}
   bool CheckCollision(int x, int y);
-  Direction direction = Direction::kUp;
+  Direction direction = Direction::kNone;
   void Update();
   float speed{0.1f};
   float pos_x;

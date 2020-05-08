@@ -25,7 +25,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, player);
     Update();
-    renderer.Render(player, item);
+    renderer.Render(player, item ,pVector);
 
     frame_end = SDL_GetTicks();
 
@@ -57,22 +57,24 @@ void Game::PlaceItem() {
     x = random_w(engine);
     y = random_h(engine);
     // TO:DO Check that the location is not occupied by any of the game objects
-     if (!player.CheckCollision(x, y)) {
+    if (!player.CheckCollision(x, y))
+    {
       item.x = x;
       item.y = y;
       freeSpaceFound=true;
     } 
     //TODO: Check also for all other Person objects
-    /*
-    for (auto x: vector of persons)
+    for(Person p : pVector)
     {
-      if (!x.CheckCollision(x, y)) {
+    if (!p.CheckCollision(x, y))
+      {
       item.x = x;
       item.y = y;
       
       freeSpaceFound=true;
+      }
     }
-    */
+    
   }
 }
 
@@ -80,12 +82,12 @@ void Game::Update() {
   if (!player.alive) return;
 
   player.Update();
-
   int new_x = static_cast<int>(player.pos_x);
   int new_y = static_cast<int>(player.pos_y);
-
-  // Check if there's item over here
+  player.direction = GameObject::Direction::kNone;
+  // Check if there's food over here
   if (item.x == new_x && item.y == new_y) {
+    std::cout << "Item found\n";
     //TODO: player found item -> makes game easier 
 /*     score++;
     PlaceFood();

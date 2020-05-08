@@ -4,6 +4,8 @@
 #include <vector>
 #include "SDL.h"
 #include "Player.h"
+#include "Person.h"
+
 
 class Renderer {
  public:
@@ -11,7 +13,7 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Player const player, SDL_Point const &item); 
+  void Render(Player const player, SDL_Point const &item, std::vector<Person> const &pVector); 
   void UpdateWindowTitle(int score, int fps);
 
  private:
