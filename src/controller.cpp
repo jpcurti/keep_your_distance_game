@@ -16,23 +16,19 @@ void Controller::HandleInput(bool &running, Player &player) const {
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
-          ChangeDirection(player, Player::Direction::kUp,
-                          Player::Direction::kDown);
+          ChangeDirection(player, Player::Direction::kUp);
           break;
 
         case SDLK_DOWN:
-          ChangeDirection(player, Player::Direction::kDown,
-                          Player::Direction::kUp);
+          ChangeDirection(player, Player::Direction::kDown);
           break;
 
         case SDLK_LEFT:
-          ChangeDirection(player, Player::Direction::kLeft,
-                          Player::Direction::kRight);
+          ChangeDirection(player, Player::Direction::kLeft);
           break;
 
         case SDLK_RIGHT:
-          ChangeDirection(player, Player::Direction::kRight,
-                          Player::Direction::kLeft);
+          ChangeDirection(player, Player::Direction::kRight);
           break;
       }
     }
