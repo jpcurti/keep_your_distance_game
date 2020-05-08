@@ -2,10 +2,7 @@
 #define PLAYER_H
 
 #include <vector>
-#include "SDL.h"
 #include "GameObject.h"
-
-
 
 class Player:public GameObject {
  public:
@@ -15,7 +12,7 @@ class Player:public GameObject {
   bool alive{true};
 
  private:
-  
+  void UpdatePosition() override;
 };
 
 #endif

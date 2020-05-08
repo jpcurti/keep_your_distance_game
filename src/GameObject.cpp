@@ -16,38 +16,32 @@ void GameObject::Update() {
 }
 
 void GameObject::UpdatePosition() {
-
+  if(OutsideBoundary()) ResetPosition();
   switch (direction) {
     case Direction::kUp:
-      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_y - speed)>=0)))
-      {
+ 
       pos_y -= speed;
-      }
-      else std::cout << "Hit screen boundary \n";
+      
       break;
 
     case Direction::kDown:
-      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_y + speed)<grid_height)))
-      {
+ 
+       
       pos_y += speed;
-      }
-      else std::cout << "Hit screen boundary \n";
+      
+      
       break;
 
     case Direction::kLeft:
-      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_x - speed)>=0)))
-      {
+   
       pos_x -= speed;
-      }
-      else std::cout << "Hit screen boundary \n";
+      
       break;
 
     case Direction::kRight:
-      if(object_Type!= ObjectType::objectPlayer || ((object_Type== ObjectType::objectPlayer && (pos_x + speed)<grid_width)))
-      {
+    
       pos_x += speed;
-      }
-      else std::cout << "Hit screen boundary \n";
+     
       break;
     
     case Direction::kNone:
@@ -80,4 +74,58 @@ bool GameObject::CheckCollision(int x, int y) {
   }
 
   return false;
+}
+
+bool GameObject::OutsideBoundary()
+{
+  if(pos_x <-1 || pos_x > grid_width+1 || pos_y < -1 || pos_y > grid_height+1 )
+  {
+    return true;
+  }
+  else return false;
+
+}
+
+void GameObject::ResetPosition()
+{
+  //reset the position of the object to one of the four sides of the screen randomly
+  std::random_device dev;
+  std::default_random_engine generator(dev());
+  std::uniform_int_distribution<int> distribution(1,4);
+  int random_side = distribution(generator);
+   std::random_device dev2;
+   std::default_random_engine generator2(dev2());
+  std::uniform_int_distribution<int> distribution_x(0,grid_width);
+  int random_x = distribution_x(generator2); 
+   std::random_device dev3;
+  std::default_random_engine generator3(dev3());
+  std::uniform_int_distribution<int> distribution_y(0,grid_height);
+  int random_y= distribution_y(generator3);
+  switch(random_side)
+  { 
+    case 1: //1 means coming from left to right
+    pos_y=random_y;
+    pos_x=-1;
+    direction=Direction::kRight;
+    break;
+
+    case 2:// 2 means coming from right to left
+    pos_y=random_y;
+    pos_x=grid_width+1;
+    direction=Direction::kLeft;
+    break;
+
+    case 3:// 3 means bottom->top
+    pos_y=-1;
+    pos_x=random_x;
+    direction=Direction::kDown;
+    break;
+
+    case 4: //4 means top->bottom
+    pos_y=grid_height+1;
+    pos_x=random_x;
+    direction=Direction::kUp;
+    break;
+  }
+
 }

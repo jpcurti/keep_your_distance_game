@@ -6,7 +6,18 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : player(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
+      random_h(0, static_cast<int>(grid_height)) 
+{
+  
+  pVector.push_back( Person(grid_width, grid_height));
+
+  pVector.push_back( Person(grid_width, grid_height));
+
+  pVector.push_back( Person(grid_width, grid_height));
+
+  pVector.push_back( Person(grid_width, grid_height));
+  
+  
   PlaceItem();
 }
 
@@ -21,7 +32,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
   while (running) {
     frame_start = SDL_GetTicks();
-
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, player);
     Update();
@@ -84,7 +94,14 @@ void Game::Update() {
   player.Update();
   int new_x = static_cast<int>(player.pos_x);
   int new_y = static_cast<int>(player.pos_y);
-  player.direction = GameObject::Direction::kNone;
+  //player.direction = GameObject::Direction::kNone;
+  //update position of all persons
+  
+  for(Person &p : pVector)
+  {
+    //pVector[0].Update(); 
+    p.Update();
+  }
   // Check if there's food over here
   if (item.x == new_x && item.y == new_y) {
     std::cout << "Item found\n";
