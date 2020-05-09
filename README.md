@@ -1,4 +1,4 @@
-# Keep your distance game
+# Keep your distance Game
 A simple 2D game using C++ and SDL. Can you keep your distance?
 
 This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo is based on the [Capstone Snake Game Example](https://github.com/udacity/CppND-Capstone-Snake-Game) provided by Udacity.
