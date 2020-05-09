@@ -18,7 +18,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
   pVector.push_back( Person(grid_width, grid_height));
   
   
-  PlaceItem();
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -35,7 +38,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, player);
     Update();
-    renderer.Render(player, item ,pVector);
+    renderer.Render(player, iVector ,pVector);
 
     frame_end = SDL_GetTicks();
 
@@ -60,32 +63,38 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::PlaceItem() {
-  int x, y;
+void Game::PlaceItem(std::size_t grid_width, std::size_t grid_height) {
+  Item i(grid_width, grid_height);
   bool freeSpaceFound = false;
-  while (!freeSpaceFound) {
-    x = random_w(engine);
-    y = random_h(engine);
-    // TO:DO Check that the location is not occupied by any of the game objects
-    if (!player.CheckCollision(x, y))
+  
+  while (!freeSpaceFound) { //check if there isnt a colliison with the player or the persons in the map and reset the position until a free space is found
+    
+    if(i.CheckCollision(player.pos_x,player.pos_y))//if there is a collision w player
     {
-      item.x = x;
-      item.y = y;
-      freeSpaceFound=true;
-    } 
-    //TODO: Check also for all other Person objects
-    for(Person p : pVector)
+      i.ResetPosition();
+    }
+    else 
     {
-    if (!p.CheckCollision(x, y))
+      bool collisionFound=false;
+      for(auto &p : pVector)
       {
-      item.x = x;
-      item.y = y;
-      
-      freeSpaceFound=true;
+        if(i.CheckCollision(p.pos_x,p.pos_y)) //if there is a collision
+        {
+        collisionFound=true;
+        i.ResetPosition();
+        break;
+        }
+      }
+      if(collisionFound==false)
+      {
+        freeSpaceFound=true;
       }
     }
-    
+   
   }
+  //if the free space is found, push it back to the vector os items
+  std::cout << "free space found on: "<<i.pos_x <<" - " <<i.pos_y <<"\n";
+  iVector.push_back(std::move(i));
 }
 
 void Game::Update() {
@@ -103,15 +112,15 @@ void Game::Update() {
     p.Update();
   }
   // Check if there's food over here
-  if (item.x == new_x && item.y == new_y) {
-    std::cout << "Item found\n";
+  //if (item.x == new_x && item.y == new_y) {
+    //std::cout << "Item found\n";
     //TODO: player found item -> makes game easier 
 /*     score++;
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02; */
-  }
+  //}
 }
 
 int Game::GetScore() const { return score; }

@@ -10,7 +10,7 @@ enum ObjectType
   noObject,
   objectPlayer,
   objectPerson,
-  Objecttem,
+  ObjectItem,
 
 };
 
@@ -40,7 +40,7 @@ class GameObject {
   float speed{0.1f};
   float pos_x;
   float pos_y;
-  void ResetPosition();
+  virtual void ResetPosition();
   bool OutsideBoundary();
  
 

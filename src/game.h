@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "Player.h"
 #include "Person.h"
+#include "Item.h"
 
 class Game {
  public:
@@ -20,7 +21,8 @@ class Game {
  private:
   Player player;
   std::vector<Person> pVector;
-  SDL_Point item;
+  std::vector<Item> iVector;
+ 
 
   std::random_device dev;
   std::mt19937 engine;
@@ -29,7 +31,7 @@ class Game {
 
   int score{0};
 
-  void PlaceItem();
+  void PlaceItem(std::size_t grid_width, std::size_t grid_height);
   void Update();
 };
 

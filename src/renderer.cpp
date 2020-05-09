@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Player const player, SDL_Point const &item, std::vector<Person> const &pVector) {
+void Renderer::Render(Player const player, std::vector<Item>  const &iVector, std::vector<Person> const &pVector) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -47,12 +47,14 @@ void Renderer::Render(Player const player, SDL_Point const &item, std::vector<Pe
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
-  // Render item
+  // Render all items
+  for(Item i : iVector)
+  {
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-  block.x = item.x * block.w;
-  block.y = item.y * block.h;
+  block.x = i.pos_x * block.w;
+  block.y = i.pos_y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
-
+  }
   // Render other persons
   for(Person p : pVector)
   {
