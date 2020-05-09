@@ -5,7 +5,7 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
 
 In this game, your task is to help the main character to keep a safe distance to other people while walking in a very crouded place. The number os random people increases with time and slows down when you get an item.
 
-[comment]: <> (Add a gif of the game like the one done in the snake project w/ <img src="snake_game.gif"/>)
+[<img src="img/gameplay.gif"/>)
 
 The necessary rubric my submission satisfies:
 
