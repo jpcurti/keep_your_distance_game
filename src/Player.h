@@ -10,7 +10,7 @@ class Player:public GameObject {
   Player(int grid_width, int grid_height);
 
   bool alive{true};
-
+  int itemsCollected{0};
  private:
   void UpdatePosition() override;
 };

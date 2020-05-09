@@ -39,7 +39,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(GetScore(), frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
       elapsed_time = (SDL_GetTicks()-timestamp_begin)/1000;
@@ -146,6 +146,7 @@ void Game::Update() {
         std::cout << "Player got item!!\n";
       //item consumed
       i.consumed=true;
+      player.itemsCollected++;
       difficulty+=3;
       
       } 
@@ -155,6 +156,8 @@ void Game::Update() {
         {
           std::cout << "Person got item!!\n";
           p.speed*=1.5;
+          p.gotItem=true;
+          
         //item consumed
           i.consumed=true;
         } 
@@ -186,4 +189,4 @@ void Game::Update() {
   //}
 }
 
-int Game::GetScore() const { return score; }
+int Game::GetScore() const { return (player.itemsCollected*5)+elapsed_time; }

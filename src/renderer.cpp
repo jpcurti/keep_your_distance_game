@@ -49,8 +49,24 @@ Renderer::Renderer(const std::size_t screen_width,
      
   
   }
+     sdl_player2_surface = SDL_LoadBMP("../img/player_dead.bmp");
+  if (sdl_player2_surface == NULL)
+  {
+    std::cerr << "surface could not be created.\n";
+    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+     
+  
+  }
    sdl_virus_surface = SDL_LoadBMP("../img/corona.bmp");
   if (sdl_virus_surface == NULL)
+  {
+    std::cerr << "surface could not be created.\n";
+    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+     
+  
+  }
+    sdl_virus2_surface = SDL_LoadBMP("../img/corona_green.bmp");
+  if (sdl_virus2_surface == NULL)
   {
     std::cerr << "surface could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
@@ -76,8 +92,18 @@ Renderer::Renderer(const std::size_t screen_width,
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
       
   }
+    sdl_player2_texture= SDL_CreateTextureFromSurface(sdl_renderer, sdl_player2_surface);
+  if (!sdl_player2_texture) {
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
+      
+  }
    sdl_virus_texture= SDL_CreateTextureFromSurface(sdl_renderer, sdl_virus_surface);
   if (!sdl_virus_texture) {
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
+      
+  }
+   sdl_virus2_texture= SDL_CreateTextureFromSurface(sdl_renderer, sdl_virus2_surface);
+  if (!sdl_virus2_texture) {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
       
   }
@@ -129,21 +155,22 @@ void Renderer::Render(Player const player, std::vector<Item>  const &iVector, st
     block.x = static_cast<int>(p.pos_x) * block.w;
     block.y = static_cast<int>(p.pos_y) * block.h;
     //SDL_RenderFillRect(sdl_renderer, &block);
-    SDL_RenderCopy(sdl_renderer, sdl_virus_texture, NULL, &block);
+    if(p.gotItem)    SDL_RenderCopy(sdl_renderer, sdl_virus_texture, NULL, &block);
+    else SDL_RenderCopy(sdl_renderer, sdl_virus2_texture, NULL, &block);
   }
 
   // Render Player 
   block.x = static_cast<int>(player.pos_x) * block.w;
   block.y = static_cast<int>(player.pos_y) * block.h;
-  /* if (player.alive) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
-  } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-  }
-  SDL_RenderFillRect(sdl_renderer, &block); */
-
-   
+  if (player.alive) {
+    
   SDL_RenderCopy(sdl_renderer, sdl_player_texture, NULL, &block);
+  } else {
+    
+  SDL_RenderCopy(sdl_renderer, sdl_player2_texture, NULL, &block);
+  }
+ 
+   
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer);

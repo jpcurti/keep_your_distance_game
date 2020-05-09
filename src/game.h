@@ -31,7 +31,7 @@ class Game {
   long long timestamp_begin= SDL_GetTicks();;
   Uint32 elapsed_time;
   int difficulty=5;
-  int score{0};
+
 
   void PlaceItem(std::size_t grid_width, std::size_t grid_height);
   void Update();
