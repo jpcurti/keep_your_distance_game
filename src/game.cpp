@@ -16,9 +16,32 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
   pVector.push_back( Person(grid_width, grid_height));
 
   pVector.push_back( Person(grid_width, grid_height));
+
+  pVector.push_back( Person(grid_width, grid_height));
+
+  pVector.push_back( Person(grid_width, grid_height));
   
   
   PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+  PlaceItem(grid_width,grid_height);
+
+  
   
 }
 
@@ -91,7 +114,7 @@ void Game::PlaceItem(std::size_t grid_width, std::size_t grid_height) {
    
   }
   //if the free space is found, push it back to the vector os items
-  std::cout << "free space found on: "<<i.pos_x <<" - " <<i.pos_y <<"\n";
+  std::cout << "free space found on: x "<<i.pos_x <<" , y " <<i.pos_y <<"\n";
   iVector.push_back(std::move(i));
 }
 
@@ -114,10 +137,45 @@ void Game::Update() {
       std::cout << "Game Over!!\n";
       player.alive=false;
     } 
+  
   }
   
+  for(Item &i : iVector)
+  { 
+    if(!i.consumed)  
+    {
+      int it=0;
+      if(player.CheckCollision(i.pos_x,i.pos_y,0))
+      {
+        std::cout << "Player got item!!\n";
+      //item consumed
+      i.consumed=true;
+      
+      } 
+      for(Person &p : pVector)
+      {
+          if(p.CheckCollision(i.pos_x,i.pos_y,0))
+        {
+          std::cout << "Person got item!!\n";
+        //item consumed
+          i.consumed=true;
+        } 
+      }
+    }  
+  }
+  if(!iVector.empty())
+    {
+      
+   
+    for ( std::vector<Item>::iterator it = iVector.begin();it != iVector.end();)
+    {
+      if(it->consumed){
+        iVector.erase(it);
+      } 
+      else it++;
 
-
+    }
+  }
   // Check if there's food over here
   //if (item.x == new_x && item.y == new_y) {
     //std::cout << "Item found\n";
