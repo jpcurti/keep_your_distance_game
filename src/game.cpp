@@ -9,40 +9,8 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_h(0, static_cast<int>(grid_height)) 
 {
   
-  pVector.push_back( Person(grid_width, grid_height));
-
-  pVector.push_back( Person(grid_width, grid_height));
-
-  pVector.push_back( Person(grid_width, grid_height));
-
-  pVector.push_back( Person(grid_width, grid_height));
-
-  pVector.push_back( Person(grid_width, grid_height));
-
-  pVector.push_back( Person(grid_width, grid_height));
-  
-  
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-
-  
-  
+  pVector.push_back( Person(player.getGridWidth(),player.getGridHeight()));
+  PlaceItem(player.getGridWidth(),player.getGridHeight());
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -51,6 +19,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
+  timestamp_begin= SDL_GetTicks();;
   int frame_count = 0;
   bool running = true;
 
@@ -73,14 +42,38 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       renderer.UpdateWindowTitle(score, frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
+      elapsed_time = (SDL_GetTicks()-timestamp_begin)/1000;
+      //std::cout << "elapsed time: "<< elapsed_time << "\n";
+      if(player.alive)
+      {
+        //Place person inside map
+        if(elapsed_time>0 && elapsed_time%difficulty == 0)  pVector.push_back( Person(player.getGridWidth(),player.getGridHeight()));
+        //every 10 seconds increase difficulty :
+        if(elapsed_time>0 && elapsed_time%10 == 0)
+        {
+          if(difficulty<4) difficulty=4;
+          else difficulty--;
+        }
+        if(elapsed_time>0 && elapsed_time%10 == 0)
+        {
+          PlaceItem(player.getGridWidth(),player.getGridHeight());
+        }
+      }
+      
     }
+    
+
 
     // If the time for this frame is too small (i.e. frame_duration is
     // smaller than the target ms_per_frame), delay the loop to
     // achieve the correct frame rate.
     if (frame_duration < target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_duration);
+      
+      
     }
+    
+    
   }
 }
 
@@ -121,6 +114,9 @@ void Game::PlaceItem(std::size_t grid_width, std::size_t grid_height) {
 void Game::Update() {
   if (!player.alive) return;
 
+ 
+
+
   player.Update();
   int new_x = static_cast<int>(player.pos_x);
   int new_y = static_cast<int>(player.pos_y);
@@ -132,7 +128,7 @@ void Game::Update() {
     //pVector[0].Update(); 
     p.Update();
     //Check if player came too close to one person
-    if(player.CheckCollision(p.pos_x,p.pos_y,1))
+    if(player.CheckCollision(p.pos_x,p.pos_y,0))
     {
       std::cout << "Game Over!!\n";
       player.alive=false;
@@ -150,6 +146,7 @@ void Game::Update() {
         std::cout << "Player got item!!\n";
       //item consumed
       i.consumed=true;
+      difficulty+=3;
       
       } 
       for(Person &p : pVector)
@@ -157,6 +154,7 @@ void Game::Update() {
           if(p.CheckCollision(i.pos_x,i.pos_y,0))
         {
           std::cout << "Person got item!!\n";
+          p.speed*=1.5;
         //item consumed
           i.consumed=true;
         } 
