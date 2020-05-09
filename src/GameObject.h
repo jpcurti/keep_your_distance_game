@@ -34,7 +34,7 @@ class GameObject {
   ObjectType getType()const  { return object_Type; }
   int getGridWidth() const {return grid_width;}
   int getGridHeight() const {return grid_height;}
-  bool CheckCollision(int x, int y);
+  bool CheckCollision(int x, int y, int radius);
   Direction direction = Direction::kNone;
   void Update();
   float speed{0.1f};

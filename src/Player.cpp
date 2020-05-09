@@ -13,18 +13,30 @@
 
   switch (direction) {
     case Direction::kUp:
-      if((pos_y - speed)>=0) 
+     if((pos_y - speed)>=0) 
       {
       this->pos_y -= speed;
       }
+      else
+      {
+      this->pos_y=0;
+      }
+     
+      
       direction= Direction::kNone;
       break;
 
     case Direction::kDown:
-      if((pos_y + speed)< getGridHeight())
+     if((pos_y + speed)< getGridHeight())
       {
       this->pos_y += speed;
       }
+      else
+      {
+      this->pos_y=getGridHeight()-1;
+      }
+      
+      
       direction= Direction::kNone;
       break;
 
@@ -33,6 +45,10 @@
       {
       this->pos_x -= speed;
       }
+       else
+      {
+      this->pos_x=0;
+      }
       direction= Direction::kNone;
       break;
 
@@ -40,6 +56,10 @@
       if((pos_x + speed)<getGridWidth())
       {
       this->pos_x += speed;
+      }
+      else
+      {
+      this->pos_x=getGridWidth()-1;
       }
       direction= Direction::kNone;
       break;

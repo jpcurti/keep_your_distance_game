@@ -19,9 +19,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
   
   
   PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
-  PlaceItem(grid_width,grid_height);
+  
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -69,7 +67,7 @@ void Game::PlaceItem(std::size_t grid_width, std::size_t grid_height) {
   
   while (!freeSpaceFound) { //check if there isnt a colliison with the player or the persons in the map and reset the position until a free space is found
     
-    if(i.CheckCollision(player.pos_x,player.pos_y))//if there is a collision w player
+    if(i.CheckCollision(player.pos_x,player.pos_y,0))//if there is a collision w player
     {
       i.ResetPosition();
     }
@@ -78,7 +76,7 @@ void Game::PlaceItem(std::size_t grid_width, std::size_t grid_height) {
       bool collisionFound=false;
       for(auto &p : pVector)
       {
-        if(i.CheckCollision(p.pos_x,p.pos_y)) //if there is a collision
+        if(i.CheckCollision(p.pos_x,p.pos_y,0)) //if there is a collision
         {
         collisionFound=true;
         i.ResetPosition();
@@ -103,14 +101,23 @@ void Game::Update() {
   player.Update();
   int new_x = static_cast<int>(player.pos_x);
   int new_y = static_cast<int>(player.pos_y);
-  //player.direction = GameObject::Direction::kNone;
+  
   //update position of all persons
   
   for(Person &p : pVector)
   {
     //pVector[0].Update(); 
     p.Update();
+    //Check if player came too close to one person
+    if(player.CheckCollision(p.pos_x,p.pos_y,1))
+    {
+      std::cout << "Game Over!!\n";
+      player.alive=false;
+    } 
   }
+  
+
+
   // Check if there's food over here
   //if (item.x == new_x && item.y == new_y) {
     //std::cout << "Item found\n";

@@ -68,14 +68,31 @@ void GameObject::ConsumeItem() {
  }
 
 // TODO: check if cell is occupied by GameObject.
-bool GameObject::CheckCollision(int x, int y) {
-   if (x == static_cast<int>(pos_x) && y == static_cast<int>(pos_y)) {
-    return true;
-  }
+bool GameObject::CheckCollision(int x, int y, int radius)
+{
 
+  //is pos X or pos Y inside the point/radius?
+for(int i=-radius;i<=radius;i++)
+  { 
+    for(int j=-radius;j<=radius;j++)
+    { 
+
+      if((static_cast<int>(pos_x)+i ==  x) && (static_cast<int>(pos_y)+j == y))
+      {
+        return true;
+      }
+    }
+
+  } 
+/*   if(static_cast<int>(pos_x) ==  x && static_cast<int>(pos_y) == y) ||
+      {
+        return true;
+      }
+ */     
   return false;
-}
 
+}
+ 
 bool GameObject::OutsideBoundary()
 {
   if(pos_x <-1 || pos_x > grid_width+1 || pos_y < -1 || pos_y > grid_height+1 )
