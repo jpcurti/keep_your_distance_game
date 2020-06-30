@@ -3,7 +3,7 @@ A simple 2D game using C++ and SDL. Can you keep your distance from the virus?
 
 This is a repository for my version of the Capstone project from [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo is based on the [Capstone Snake Game Example](https://github.com/udacity/CppND-Capstone-Snake-Game) provided by Udacity.
 
-In this game, your task is to help the main character to keep a safe distance to viruses while walking in a very crouded place. The number os contamination chance increases with time and slows down when you get an protection mask. The score is based on the total time and the number of masks obtained.
+In this game, your task is to help the main character to keep a safe distance to viruses while walking in a crowded place. The contamination chance increases with time and slows down when you get a protection mask. The score is based on the total time and the number of masks obtained.
 
 [<img src="img/gameplay.gif"/>)
 
